@@ -369,11 +369,56 @@ public class Constants {
 			patientObj.put("blood_pressure", systolic + "/" + diastolic);
 		}
 	}
-	
+
 	public static void populateDiagnoses(Patient patient, ObjectNode patientObj) {
-		List<String> diagnoses = getLatestVisitDiagnoses(patient);
-		if (!diagnoses.isEmpty()) {
-			patientObj.put("diagnosis", diagnoses.toString());
+		List<Concept> diagnosisConcepts = getDiagnosisConcepts();
+		
+		List<Obs> diagnosisObs = new ArrayList<>(
+		        Context.getObsService().getObservations(Collections.singletonList(patient.getPerson()), null,
+		            diagnosisConcepts, null, null, null, null, null, null, null, null, false));
+
+		ArrayNode diagnosesArray = patientObj.putArray("diagnoses");
+		List<String> diagnosisNames = new ArrayList<>();
+		
+		for (Obs obs : diagnosisObs) {
+			String diagValue = null;
+			if (obs.getValueCoded() != null) {
+				if (obs.getValueCoded().getName() != null && obs.getValueCoded().getName().getName() != null) {
+					diagValue = obs.getValueCoded().getName().getName();
+				} else {
+					diagValue = obs.getValueCoded().getDisplayString();
+				}
+			} else if (obs.getValueText() != null) {
+				diagValue = obs.getValueText();
+			} else if (obs.getValueNumeric() != null) {
+				diagValue = String.valueOf(obs.getValueNumeric());
+			}
+			
+			if (diagValue == null) {
+				continue;
+			}
+			
+			diagnosisNames.add(diagValue);
+			
+			ObjectNode d = JsonNodeFactory.instance.objectNode();
+			d.put("diagnosis", diagValue);
+			
+			Date obsDate = obs.getObsDatetime() != null ? obs.getObsDatetime() : obs.getDateCreated();
+			if (obsDate != null) {
+				d.put("date", dateTimeFormatter.format(obsDate));
+			} else {
+				d.put("date", "");
+			}
+			
+			if (obs.getEncounter() != null && obs.getEncounter().getUuid() != null) {
+				d.put("encounterUuid", obs.getEncounter().getUuid());
+			}
+			
+			diagnosesArray.add(d);
+		}
+		
+		if (!diagnosisNames.isEmpty()) {
+			patientObj.put("diagnosis", String.join(", ", diagnosisNames));
 		}
 	}
 	
