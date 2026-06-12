@@ -369,14 +369,14 @@ public class Constants {
 			patientObj.put("blood_pressure", systolic + "/" + diastolic);
 		}
 	}
-
+	
 	public static void populateDiagnoses(Patient patient, ObjectNode patientObj) {
 		List<Concept> diagnosisConcepts = getDiagnosisConcepts();
 		
 		List<Obs> diagnosisObs = new ArrayList<>(
 		        Context.getObsService().getObservations(Collections.singletonList(patient.getPerson()), null,
 		            diagnosisConcepts, null, null, null, null, null, null, null, null, false));
-
+		
 		ArrayNode diagnosesArray = patientObj.putArray("diagnoses");
 		List<String> diagnosisNames = new ArrayList<>();
 		

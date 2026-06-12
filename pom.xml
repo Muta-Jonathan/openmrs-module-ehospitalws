@@ -140,7 +140,7 @@
 	<properties>
         <openmrsPlatformVersion>2.5.0</openmrsPlatformVersion>
 		<legacyUIomodVersion>1.8.2</legacyUIomodVersion>
-		<webservices.restModuleVersion>2.40.0</webservices.restModuleVersion>
+		<webservices.restModuleVersion>3.2.0</webservices.restModuleVersion>
 		<serializationxstreamVersion>0.2.14</serializationxstreamVersion>
 		<mockito.version>1.10.19</mockito.version>
 		<powermock.version>1.7.3</powermock.version>
