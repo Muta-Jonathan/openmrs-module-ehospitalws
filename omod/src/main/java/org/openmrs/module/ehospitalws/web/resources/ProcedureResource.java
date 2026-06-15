@@ -24,7 +24,8 @@ import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOperationException;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
 
-@Resource(name = RestConstants.VERSION_1 + "/procedure", supportedClass = Procedure.class, supportedOpenmrsVersions = { "2.6.* - 9.*" })
+@Resource(name = RestConstants.VERSION_1 + "/procedure", supportedClass = Procedure.class, supportedOpenmrsVersions = {
+        "2.6.* - 9.*" })
 public class ProcedureResource extends DataDelegatingCrudResource<Procedure> {
 	
 	private ProcedureService procedureService;
@@ -69,7 +70,7 @@ public class ProcedureResource extends DataDelegatingCrudResource<Procedure> {
 	protected PageableResult doSearch(RequestContext requestContext) {
 		String orderUuid = requestContext.getParameter("orderUuid");
 		String orderTypeUuid = requestContext.getParameter("orderTypeUuid");
-
+		
 		return new NeedsPaging<>(procedureService.searchProcedures(orderUuid, orderTypeUuid), requestContext);
 	}
 	

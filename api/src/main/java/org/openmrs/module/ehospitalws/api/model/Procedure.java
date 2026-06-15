@@ -27,11 +27,18 @@ import org.openmrs.Patient;
 public class Procedure extends BaseFormRecordableOpenmrsData {
 	
 	public enum ProcedureStatus {
-		PREPARATION, IN_PROGRESS, NOT_DONE, ON_HOLD, STOPPED, COMPLETED
+		PREPARATION,
+		IN_PROGRESS,
+		NOT_DONE,
+		ON_HOLD,
+		STOPPED,
+		COMPLETED
 	}
 	
 	public enum ProcedureOutcome {
-		SUCCESSFUL, NOT_SUCCESSFUL, PARTIALLY_SUCCESSFUL
+		SUCCESSFUL,
+		NOT_SUCCESSFUL,
+		PARTIALLY_SUCCESSFUL
 	}
 	
 	private static final long serialVersionUID = 1L;
