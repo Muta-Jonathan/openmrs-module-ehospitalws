@@ -75,7 +75,7 @@
         </preConditions>
         <comment>Create procedure_order table</comment>
         <createTable tableName="procedure_order">
-            <column name="order_id" type="int" autoIncrement="true">
+            <column name="order_id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="body_site" type="int"/>

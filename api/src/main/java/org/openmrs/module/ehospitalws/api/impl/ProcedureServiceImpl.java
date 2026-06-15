@@ -32,6 +32,11 @@ public class ProcedureServiceImpl implements ProcedureService {
 	}
 	
 	@Override
+	public List<Procedure> searchProcedures(String orderUuid, String orderTypeUuid) {
+		return procedureDao.searchProcedures(orderUuid, orderTypeUuid);
+	}
+	
+	@Override
 	public Procedure saveOrUpdate(Procedure procedure) {
 		List<Encounter> encounters = handleEncounter(procedure);
 		procedure.setEncounters(encounters);
@@ -45,14 +50,15 @@ public class ProcedureServiceImpl implements ProcedureService {
 	 * @return
 	 */
 	private List<Encounter> handleEncounter(Procedure procedure) {
-		if (procedure.getEncounters().isEmpty()) {
+		List<Encounter> incomingEncounters = procedure.getEncounters();
+		if (incomingEncounters == null || incomingEncounters.isEmpty()) {
 			return new ArrayList<>();
 		}
 		EncounterService service = Context.getEncounterService();
 		List<Encounter> ret = new ArrayList<>();
 		
 		if (procedure.getEncounters() != null) {
-			for (Encounter encounter : procedure.getEncounters()) {
+			for (Encounter encounter : incomingEncounters) {
 				Encounter enc = new Encounter();
 				enc.setEncounterDatetime(encounter.getEncounterDatetime());
 				enc.setPatient(encounter.getPatient());

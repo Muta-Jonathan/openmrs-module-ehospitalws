@@ -27,18 +27,11 @@ import org.openmrs.Patient;
 public class Procedure extends BaseFormRecordableOpenmrsData {
 	
 	public enum ProcedureStatus {
-		PREPARATION,
-		IN_PROGRESS,
-		NOT_DONE,
-		ON_HOLD,
-		STOPPED,
-		COMPLETED
+		PREPARATION, IN_PROGRESS, NOT_DONE, ON_HOLD, STOPPED, COMPLETED
 	}
 	
 	public enum ProcedureOutcome {
-		SUCCESSFUL,
-		NOT_SUCCESSFUL,
-		PARTIALLY_SUCCESSFUL
+		SUCCESSFUL, NOT_SUCCESSFUL, PARTIALLY_SUCCESSFUL
 	}
 	
 	private static final long serialVersionUID = 1L;
@@ -97,7 +90,7 @@ public class Procedure extends BaseFormRecordableOpenmrsData {
 	
 	@ManyToOne
 	@JoinColumn(name = "modality")
-	public Concept modality;
+	private Concept modality;
 	
 	@OneToMany
 	@JoinTable(name = "encounter_procedures", joinColumns = @JoinColumn(name = "procedure_id"), inverseJoinColumns = @JoinColumn(name = "encounter_id"))

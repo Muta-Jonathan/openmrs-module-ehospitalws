@@ -24,8 +24,7 @@ import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOperationException;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
 
-@Resource(name = RestConstants.VERSION_1 + "/procedure", supportedClass = Procedure.class, supportedOpenmrsVersions = {
-        "2.6.* - 9.*" })
+@Resource(name = RestConstants.VERSION_1 + "/procedure", supportedClass = Procedure.class, supportedOpenmrsVersions = { "2.6.* - 9.*" })
 public class ProcedureResource extends DataDelegatingCrudResource<Procedure> {
 	
 	private ProcedureService procedureService;
@@ -45,8 +44,10 @@ public class ProcedureResource extends DataDelegatingCrudResource<Procedure> {
 	}
 	
 	@Override
-	protected void delete(Procedure procedure, String s, RequestContext requestContext) throws ResponseException {
-		
+	protected void delete(Procedure procedure, String reason, RequestContext requestContext) throws ResponseException {
+		procedure.setVoided(true);
+		procedure.setVoidReason(reason);
+		procedureService.saveOrUpdate(procedure);
 	}
 	
 	@Override
@@ -61,22 +62,21 @@ public class ProcedureResource extends DataDelegatingCrudResource<Procedure> {
 	
 	@Override
 	public void purge(Procedure procedure, RequestContext requestContext) throws ResponseException {
-		
+		throw new ResourceDoesNotSupportOperationException();
 	}
 	
 	@Override
 	protected PageableResult doSearch(RequestContext requestContext) {
 		String orderUuid = requestContext.getParameter("orderUuid");
 		String orderTypeUuid = requestContext.getParameter("orderTypeUuid");
-		
-		return new NeedsPaging<>(new ArrayList<>(), requestContext);
+
+		return new NeedsPaging<>(procedureService.searchProcedures(orderUuid, orderTypeUuid), requestContext);
 	}
 	
 	@Override
 	public DelegatingResourceDescription getCreatableProperties() throws ResourceDoesNotSupportOperationException {
 		DelegatingResourceDescription description = new DelegatingResourceDescription();
 		description.addProperty("patient");
-		description.addProperty("encounter");
 		description.addProperty("procedureOrder");
 		description.addProperty("concept");
 		description.addProperty("procedureReason");
@@ -90,8 +90,6 @@ public class ProcedureResource extends DataDelegatingCrudResource<Procedure> {
 		description.addProperty("outcome");
 		description.addProperty("location");
 		description.addProperty("encounters");
-		description.addProperty("participants");
-		description.addProperty("procedureResults");
 		description.addProperty("procedureReport");
 		return description;
 	}
@@ -158,12 +156,7 @@ public class ProcedureResource extends DataDelegatingCrudResource<Procedure> {
 	
 	@PropertyGetter(value = "encounters")
 	public List<Encounter> getEncounters(Procedure instance) {
-		try {
-			List<Encounter> encounters = instance.getEncounters();
-			return encounters;
-		}
-		catch (Exception e) {
-			return new ArrayList<>();
-		}
+		List<Encounter> encounters = instance.getEncounters();
+		return encounters == null ? new ArrayList<>() : encounters;
 	}
 }

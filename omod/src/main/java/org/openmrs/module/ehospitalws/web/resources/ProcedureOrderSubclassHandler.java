@@ -54,14 +54,11 @@ public class ProcedureOrderSubclassHandler extends BaseDelegatingSubclassHandler
 	@Override
 	public ProcedureOrder newDelegate() {
 		ProcedureOrder order = new ProcedureOrder();
-		try {
-			org.openmrs.OrderType orderType = Context.getOrderService()
-			        .getOrderTypeByUuid("4237a01f-29c5-4167-9d8e-96d6e590aa33");
-			if (orderType != null) {
-				order.setOrderType(orderType);
-			}
+		org.openmrs.OrderType orderType = Context.getOrderService().getOrderTypeByUuid(
+		    "4237a01f-29c5-4167-9d8e-96d6e590aa33");
+		if (orderType != null) {
+			order.setOrderType(orderType);
 		}
-		catch (Exception e) {}
 		return order;
 	}
 	
@@ -117,13 +114,7 @@ public class ProcedureOrderSubclassHandler extends BaseDelegatingSubclassHandler
 	
 	@PropertyGetter(value = "procedures")
 	public List<Procedure> getProcedures(ProcedureOrder instance) {
-		try {
-			List<Procedure> procedures = new ArrayList<>(instance.getProcedures());
-			return procedures;
-		}
-		catch (Exception e) {
-			return new ArrayList<>();
-		}
+		return instance.getProcedures() == null ? new ArrayList<>() : new ArrayList<>(instance.getProcedures());
 	}
 	
 	@Override
