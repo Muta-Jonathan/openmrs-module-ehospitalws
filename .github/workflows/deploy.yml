@@ -23,6 +23,10 @@ jobs:
           server-username: REPSYS_MAVEN_USERNAME
           server-password: REPSYS_MAVEN_PASSWORD
 
+      - name: Clean up corrupt cached metadata
+        run: |
+          rm -rf ~/.m2/repository/org/openmrs/module/ehospitalws/ || true
+
       - name: Deploy snapshot to Repsys
         run: |
           mvn --batch-mode deploy -DskipTests \
