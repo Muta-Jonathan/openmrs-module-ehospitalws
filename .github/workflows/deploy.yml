@@ -1,0 +1,43 @@
+name: Deploy Snapshot
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 8
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Configure Maven settings
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml <<EOF
+          <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0">
+            <servers>
+              <server>
+                <id>repsys-snapshots</id>
+                <username>${{ secrets.REPSYS_MAVEN_USERNAME }}</username>
+                <password>${{ secrets.REPSYS_MAVEN_PASSWORD }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+
+      - name: Deploy snapshot to Repsys
+        run: |
+          mvn --batch-mode deploy -DskipTests \
+            -DrepsysSnapshotsUrl=${{ secrets.REPSYS_SNAPSHOTS_URL }}
