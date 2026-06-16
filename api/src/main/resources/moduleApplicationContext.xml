@@ -55,4 +55,31 @@
             </list>
         </property>
     </bean>
+
+    <bean parent="serviceContext">
+        <property name="moduleService">
+            <list>
+                <value>org.openmrs.module.ehospitalws.api.ProcedureService</value>
+                <ref bean="procedureService"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="procedureService"
+          class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="target">
+            <bean class="org.openmrs.module.ehospitalws.api.impl.ProcedureServiceImpl">
+                <property name="procedureDao" ref="procedureDao"/>
+            </bean>
+        </property>
+        <property name="preInterceptors" ref="serviceInterceptors"/>
+        <property name="transactionAttributeSource" ref="transactionAttributeSource"/>
+    </bean>
+
+    <bean id="procedureDao" class="org.openmrs.module.ehospitalws.api.dao.impl.ProcedureDaoImpl">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
 </beans>
