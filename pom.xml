@@ -18,10 +18,24 @@
 	<url>https://wiki.openmrs.org/x/FQ4z</url>
 
 	<scm>
-		<connection>scm:git:git@github.com:openmrs/openmrs-module-ehospitalws.git</connection>
-		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-ehospitalws.git</developerConnection>
-		<url>https://github.com/openmrs/openmrs-module-ehospitalws/</url>
+		<connection>scm:git:https://github.com/IntelliSOFT-Consulting/openmrs-module-ehospitalws.git</connection>
+		<developerConnection>scm:git:https://github.com/IntelliSOFT-Consulting/openmrs-module-ehospitalws.git</developerConnection>
+		<url>https://github.com/IntelliSOFT-Consulting/openmrs-module-ehospitalws/</url>
+		<tag>HEAD</tag>
 	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>repsys-releases</id>
+			<name>Repsys Maven Releases</name>
+			<url>${repsysReleasesUrl}</url>
+		</repository>
+		<snapshotRepository>
+			<id>repsys-snapshots</id>
+			<name>Repsys Maven Snapshots</name>
+			<url>${repsysSnapshotsUrl}</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<modules>
 		<module>api</module>
@@ -132,10 +146,22 @@
 		<serializationxstreamVersion>0.2.14</serializationxstreamVersion>
 		<mockito.version>4.5.1</mockito.version>
 		<powermock.version>2.0.9</powermock.version>
+		<repsysReleasesUrl>https://packages.intellisoft.co.ke/repository/maven-releases/</repsysReleasesUrl>
+		<repsysSnapshotsUrl>https://packages.intellisoft.co.ke/repository/maven-snapshots/</repsysSnapshotsUrl>
     </properties>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<goals>deploy</goals>
+					<arguments>-DskipTests</arguments>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
