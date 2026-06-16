@@ -19,23 +19,14 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
           cache: maven
-
-      - name: Configure Maven settings
-        run: |
-          mkdir -p ~/.m2
-          cat > ~/.m2/settings.xml <<'EOF'
-          <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0">
-            <servers>
-              <server>
-                <id>repsys-snapshots</id>
-                <username>${{ secrets.REPSYS_MAVEN_USERNAME }}</username>
-                <password>${{ secrets.REPSYS_MAVEN_PASSWORD }}</password>
-              </server>
-            </servers>
-          </settings>
-          EOF
+          server-id: repsys-snapshots
+          server-username: REPSYS_MAVEN_USERNAME
+          server-password: REPSYS_MAVEN_PASSWORD
 
       - name: Deploy snapshot to Repsys
         run: |
           mvn --batch-mode deploy -DskipTests \
             -DrepsysSnapshotsUrl=${{ secrets.REPSYS_SNAPSHOTS_URL }}
+        env:
+          REPSYS_MAVEN_USERNAME: ${{ secrets.REPSYS_MAVEN_USERNAME }}
+          REPSYS_MAVEN_PASSWORD: ${{ secrets.REPSYS_MAVEN_PASSWORD }}
