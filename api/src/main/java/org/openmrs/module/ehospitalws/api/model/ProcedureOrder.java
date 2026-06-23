@@ -53,7 +53,7 @@ public class ProcedureOrder extends ServiceOrder {
 	}
 	
 	/**
-	 * Creates a ReferralOrder for revision from this order, sets the previousOrder, action field and
+	 * Creates a ProcedureOrder for revision from this order, sets the previousOrder, action field, and
 	 * other test order fields.
 	 * 
 	 * @return the newly created order
