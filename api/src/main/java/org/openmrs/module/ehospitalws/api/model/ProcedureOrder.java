@@ -99,12 +99,16 @@ public class ProcedureOrder extends ServiceOrder {
 	
 	@Override
 	public Integer getNumberOfRepeats() {
-		if (this.numberOfRepeats != null && !this.numberOfRepeats.isEmpty()) {
-			try {
-				return Integer.parseInt(this.numberOfRepeats);
-			}
-			catch (NumberFormatException e) {
-				return super.getNumberOfRepeats();
+		String repeats = this.numberOfRepeats;
+		if (repeats != null) {
+			repeats = repeats.trim();
+			if (!repeats.isEmpty()) {
+				try {
+					return Integer.parseInt(repeats);
+				}
+				catch (NumberFormatException e) {
+					// Fall through to the super value
+				}
 			}
 		}
 		return super.getNumberOfRepeats();
