@@ -159,6 +159,8 @@
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 					<goals>deploy</goals>
 					<arguments>-DskipTests</arguments>
+					<!-- Match the v-prefixed tag convention used for GitHub releases (e.g. v1.0.0) -->
+					<tagNameFormat>v@{project.version}</tagNameFormat>
 				</configuration>
 			</plugin>
 			<plugin>
