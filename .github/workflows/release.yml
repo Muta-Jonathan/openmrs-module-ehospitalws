@@ -14,11 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # Check out the branch the release was cut from (e.g. main) instead of
-          # the tag. The release event leaves the repo in detached-HEAD state,
-          # which makes maven-release-plugin fail with
-          # "ref HEAD is not a symbolic ref" during the SCM commit step.
-          ref: ${{ github.event.release.target_commitish }}
+          # Check out the main branch explicitly instead of the release tag. The
+          # release event otherwise leaves the repo in detached-HEAD state, which
+          # makes maven-release-plugin fail with "ref HEAD is not a symbolic ref"
+          # during the SCM commit step. We hardcode 'main' rather than using
+          # github.event.release.target_commitish because that value is a commit
+          # SHA (still detached) when a release is created targeting a commit
+          # instead of a branch.
+          ref: main
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
