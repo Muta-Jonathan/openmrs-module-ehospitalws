@@ -53,8 +53,4 @@ jobs:
       - name: Perform Maven release
         run: |
           mvn --batch-mode release:prepare release:perform \
-            -DrepsysReleasesUrl=${{ secrets.REPSYS_RELEASES_URL }} \
-            -DrepsysSnapshotsUrl=${{ secrets.REPSYS_SNAPSHOTS_URL }} \
-            -Darguments="-DskipTests \
-              -DrepsysReleasesUrl=${{ secrets.REPSYS_RELEASES_URL }} \
-              -DrepsysSnapshotsUrl=${{ secrets.REPSYS_SNAPSHOTS_URL }}"
+            -Darguments="-DskipTests"

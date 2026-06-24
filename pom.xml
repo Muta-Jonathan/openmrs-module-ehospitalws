@@ -146,8 +146,8 @@
 		<serializationxstreamVersion>0.2.14</serializationxstreamVersion>
 		<mockito.version>4.5.1</mockito.version>
 		<powermock.version>2.0.9</powermock.version>
-		<repsysReleasesUrl>https://packages.intellisoft.co.ke/repository/maven-releases/</repsysReleasesUrl>
-		<repsysSnapshotsUrl>https://packages.intellisoft.co.ke/repository/maven-snapshots/</repsysSnapshotsUrl>
+		<repsysReleasesUrl>https://repo.repsy.io/intellisoftdev/ehospital/</repsysReleasesUrl>
+		<repsysSnapshotsUrl>https://repo.repsy.io/intellisoftdev/ehospital/</repsysSnapshotsUrl>
     </properties>
 
 	<build>
