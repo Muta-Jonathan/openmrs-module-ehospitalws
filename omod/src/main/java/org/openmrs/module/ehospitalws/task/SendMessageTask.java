@@ -35,8 +35,8 @@ public class SendMessageTask {
 	public void sendScheduledMessages() {
 		Context.openSession();
 		try {
-			String adminUsername = OpenMRSPropertiesUtil.getProperty("admin.username", "*****");
-			String adminPassword = OpenMRSPropertiesUtil.getProperty("admin.password", "*****");
+			String adminUsername = OpenMRSPropertiesUtil.getRequiredProperty("admin.username");
+			String adminPassword = OpenMRSPropertiesUtil.getRequiredProperty("admin.password");
 			Context.authenticate(adminUsername, adminPassword);
 			
 			log.info("SendMessageTask started.");

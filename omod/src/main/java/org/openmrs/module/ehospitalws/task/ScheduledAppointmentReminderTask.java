@@ -62,8 +62,8 @@ public class ScheduledAppointmentReminderTask {
 	public void sendAppointmentReminders() {
 		Context.openSession();
 		try {
-			String adminUsername = OpenMRSPropertiesUtil.getProperty("admin.username", "*****");
-			String adminPassword = OpenMRSPropertiesUtil.getProperty("admin.password", "*****");
+			String adminUsername = OpenMRSPropertiesUtil.getRequiredProperty("admin.username");
+			String adminPassword = OpenMRSPropertiesUtil.getRequiredProperty("admin.password");
 			
 			Context.authenticate(adminUsername, adminPassword);
 			
