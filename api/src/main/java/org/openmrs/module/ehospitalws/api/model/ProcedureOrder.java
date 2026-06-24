@@ -26,6 +26,9 @@ public class ProcedureOrder extends ServiceOrder {
 	
 	private Set<Procedure> procedures;
 	
+	// Workaround for XStream deserialization converting empty string to Integer
+	private String numberOfRepeats;
+	
 	public ProcedureOrder() {
 	}
 	
@@ -50,8 +53,8 @@ public class ProcedureOrder extends ServiceOrder {
 	}
 	
 	/**
-	 * Creates a ReferralOrder for revision from this order, sets the previousOrder, action field
-	 * and other test order fields.
+	 * Creates a ProcedureOrder for revision from this order, sets the previousOrder, action field, and
+	 * other test order fields.
 	 * 
 	 * @return the newly created order
 	 */
@@ -92,5 +95,28 @@ public class ProcedureOrder extends ServiceOrder {
 	
 	public void setRelatedProcedure(ProcedureOrder relatedProcedure) {
 		this.relatedProcedure = relatedProcedure;
+	}
+	
+	@Override
+	public Integer getNumberOfRepeats() {
+		String repeats = this.numberOfRepeats;
+		if (repeats != null) {
+			repeats = repeats.trim();
+			if (!repeats.isEmpty()) {
+				try {
+					return Integer.parseInt(repeats);
+				}
+				catch (NumberFormatException e) {
+					// Fall through to the super value
+				}
+			}
+		}
+		return super.getNumberOfRepeats();
+	}
+	
+	@Override
+	public void setNumberOfRepeats(Integer numberOfRepeats) {
+		this.numberOfRepeats = numberOfRepeats != null ? String.valueOf(numberOfRepeats) : null;
+		super.setNumberOfRepeats(numberOfRepeats);
 	}
 }
